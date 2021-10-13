@@ -1,4 +1,34 @@
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
+    libavdevice
+    libavfilter
+    libavformat
+    libavcodec
+    libswresample
+    libswscale
+    libavutil
+)
+
+###
+# Pipeline to generate sparse point cloud coming from a UAV video feed 
+###
+add_executable(openMVG_main_UAV_Pipeline main_UAV_Pipeline.cpp)
+target_link_libraries(openMVG_main_UAV_Pipeline
+  PRIVATE
+    openMVG_system
+    openMVG_image
+    openMVG_features
+    openMVG_sfm
+    openMVG_exif
+    openMVG_multiview
+    openMVG_graph
+    openMVG_matching_image_collection
+    PkgConfig::LIBAV
+    ${STLPLUS_LIBRARY}
+    vlsift
+)
+
 ###
 # Intrinsic image analysis and SfM_Data container initialization
 ###
